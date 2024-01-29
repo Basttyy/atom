@@ -4,6 +4,7 @@ namespace Atom\Container;
 
 use ReflectionClass;
 use Atom\Container\Exception\ContainerException;
+use Closure;
 
 class Container
 {
@@ -16,9 +17,9 @@ class Container
      * @param      $abstract
      * @param null $concrete
      */
-    public function set($abstract, $concrete = NULL)
+    public function set($abstract, $concrete = null)
     {
-        if ($concrete === NULL) {
+        if ($concrete === null) {
             $concrete = $abstract;
         }
         $this->instances[$abstract] = $concrete;
@@ -91,13 +92,15 @@ class Container
         foreach ($parameters as $parameter) {
             // get the type hinted class
             $dependency = $parameter->getClass();
-            if ($dependency === NULL) {
+            if ($dependency === null) {
                 // check if default value for a parameter is available
                 if ($parameter->isDefaultValueAvailable()) {
                     // get default value of parameter
                     $dependencies[] = $parameter->getDefaultValue();
                 } else {
-                    throw new ContainerException(vsprintf(ContainerException::ERR_MSG_DEPENDENCY_NOT_RESOLVE, [$parameter->name]));
+                    throw new ContainerException(
+                        vsprintf(ContainerException::ERR_MSG_DEPENDENCY_NOT_RESOLVE, [$parameter->name])
+                    );
                 }
             } else {
                 // get dependency resolved
