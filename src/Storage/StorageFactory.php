@@ -14,12 +14,12 @@ class StorageFactory
      */
     public function __construct(string $type)
     {
-        $this->storageConfig = config('app.storage.'.$type);
+        $this->storageConfig = config('app.storage.' . $type);
     }
 
     /**
      * Open Storage Drive
-     * @return mixed
+     * @return StorageInterface
      */
     public function init()
     {

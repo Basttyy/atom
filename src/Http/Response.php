@@ -4,6 +4,7 @@ namespace Atom\Http;
 
 use Atom\Http\Globals;
 use Atom\Http\Exception\ResponseException;
+use DomainException;
 
 class Response
 {
@@ -56,7 +57,7 @@ class Response
             throw new ResponseException(ResponseException::ERR_MSG_INVALID_ARGUMENTS);
         }
         $server = Globals::server();
-        $params = empty($data) ? '': '?'.http_build_query($data);
+        $params = empty($data) ? '' : '?' . http_build_query($data);
         $uri = rtrim(dirname($server["PHP_SELF"]), '/\\') . $uri;
         $url = $server['REQUEST_SCHEME'] . '://' . $server['HTTP_HOST'] . $uri . $params;
         header("Location: {$url}");

@@ -23,7 +23,6 @@ class Image extends File
     {
         parent::__construct($type);
         $this->gd = new GD();
-
     }
 
     /**

@@ -76,7 +76,8 @@ class Globals
      * @param  mixed $args
      * @return void
      */
-    public static function __callStatic($method, $args) {
+    public static function __callStatic($method, $args)
+    {
         $called = get_called_class();
         $class = new $called();
         return $class->$method(...$args);

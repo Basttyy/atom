@@ -7,15 +7,17 @@ use Atom\Views\Exception\ViewException;
 
 class View extends ViewFactory
 {
-    static $viewFactory;
+    protected static $viewFactory;
 
     /**
      * View construct
      * @param ViewFactory|null $viewFactory
      */
-    public function __construct(ViewFactory $viewFactory = null)
+    public function __construct(string $directory, array $data, ViewFactory $viewFactory = null)
     {
-        static::$viewFactory = $viewFactory ?? new ViewFactory();
+        static::$viewFactory = $viewFactory ?? static::$viewFactory;
+        // static::$viewFactory = static::$viewFactory ?? parent;
+        parent::__construct($directory, $data);
     }
 
     /**

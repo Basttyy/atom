@@ -109,7 +109,7 @@ class Request implements ArrayAccess
      */
     public function getRawData()
     {
-        if (empty($content = file_get_contents('php://input'))){
+        if (empty($content = file_get_contents('php://input'))) {
             return [];
         }
         $data = json_decode($content, true);
@@ -122,6 +122,7 @@ class Request implements ArrayAccess
 
     /**
      * Get parameters by method
+     * @return array
      */
     public function getParametersByMethod()
     {
@@ -139,7 +140,7 @@ class Request implements ArrayAccess
 
     /**
      * Extract uri parameters
-     * @return mixed
+     * @return array
      */
     public function extractUriParameters()
     {
@@ -179,9 +180,9 @@ class Request implements ArrayAccess
         $arrRoute = explode('/', $expect);
         $tmp = array_combine($arrRoute, $arrUri);
         $params = [];
-        foreach($tmp as $key => $value) {
+        foreach ($tmp as $key => $value) {
             if (preg_match('/^\{|\}$/', $key)) {
-                $key = preg_replace('/^.|.$/','',$key);
+                $key = preg_replace('/^.|.$/', '', $key);
                 $params[$key] = $value;
             }
         }
@@ -194,7 +195,8 @@ class Request implements ArrayAccess
      * @param string The key data to retrieve
      * @access public
      */
-    public function &__get ($key) {
+    public function __get($key)
+    {
         return $this->request[$key];
     }
 
@@ -205,7 +207,8 @@ class Request implements ArrayAccess
      * @param mixed  The value to set
      * @access public
      */
-    public function __set($key,$value) {
+    public function __set($key, $value)
+    {
         $this->request[$key] = $value;
     }
 
@@ -217,7 +220,8 @@ class Request implements ArrayAccess
      * @return boolean
      * @abstracting ArrayAccess
      */
-    public function __isset ($key) {
+    public function __isset($key)
+    {
         return isset($this->request[$key]);
     }
 
@@ -227,7 +231,8 @@ class Request implements ArrayAccess
      * @param string The key to unset
      * @access public
      */
-    public function __unset($key) {
+    public function __unset($key)
+    {
         unset($this->request[$key]);
     }
 
@@ -239,7 +244,8 @@ class Request implements ArrayAccess
      * @access public
      * @abstracting ArrayAccess
      */
-    public function offsetSet($offset,$value) {
+    public function offsetSet($offset, $value): void
+    {
         if (is_null($offset)) {
             $this->request[] = $value;
         } else {
@@ -252,10 +258,10 @@ class Request implements ArrayAccess
      *
      * @param string An offset to check for
      * @access public
-     * @return boolean
      * @abstracting ArrayAccess
      */
-    public function offsetExists($offset) {
+    public function offsetExists($offset): bool
+    {
         return isset($this->request[$offset]);
     }
 
@@ -266,7 +272,8 @@ class Request implements ArrayAccess
      * @access public
      * @abstracting ArrayAccess
      */
-    public function offsetUnset($offset) {
+    public function offsetUnset($offset): void
+    {
         if ($this->offsetExists($offset)) {
             unset($this->request[$offset]);
         }
@@ -277,10 +284,10 @@ class Request implements ArrayAccess
      *
      * @param string The offset to retrieve
      * @access public
-     * @return mixed
      * @abstracting ArrayAccess
      */
-    public function offsetGet($offset) {
+    public function offsetGet($offset): mixed
+    {
         return $this->offsetExists($offset) ? $this->request[$offset] : null;
     }
 }

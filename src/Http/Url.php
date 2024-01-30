@@ -98,7 +98,6 @@ class Url extends Globals
 
         unset($time);
         return $this->protocol() . $this->domain() . $uri . '?' . http_build_query($params);
-
     }
 
     /**

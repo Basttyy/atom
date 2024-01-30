@@ -66,7 +66,7 @@ if (!function_exists('obtainValue')) {
     function obtainValue(string $file, array $keys)
     {
         if (!file_exists($file)) {
-            throw new \Exception('File Is Not Existed');
+            throw new \Exception('Route File Is Not Existing');
         }
 
         $data = require($file);
@@ -77,8 +77,7 @@ if (!function_exists('obtainValue')) {
     }
 }
 
-if (!function_exists('getHeaders'))
-{
+if (!function_exists('getHeaders')) {
     /**
      * Get HTTP Headers
      * @return array
@@ -86,10 +85,8 @@ if (!function_exists('getHeaders'))
     function getHeaders()
     {
         $headers = [];
-        foreach ($_SERVER as $name => $value)
-        {
-            if (substr($name, 0, 5) == 'HTTP_')
-            {
+        foreach ($_SERVER as $name => $value) {
+            if (substr($name, 0, 5) == 'HTTP_') {
                 $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
             }
         }
@@ -97,17 +94,16 @@ if (!function_exists('getHeaders'))
     }
 }
 
-if (!function_exists('isApi'))
-{
+if (!function_exists('isApi')) {
     function isApi()
     {
         $headers = getHeaders();
-        return (bool) strpos($_SERVER['REQUEST_URI'], 'api') || (isset($headers['Content-Type']) && $headers['Content-Type'] == 'application/json');
+        return strpos($_SERVER['REQUEST_URI'], 'api') ||
+            (isset($headers['Content-Type']) && $headers['Content-Type'] == 'application/json');
     }
 }
 
-if (!function_exists('env'))
-{
+if (!function_exists('env')) {
     /**
      * Get variable's value
      * @param  string|null $varName [description]
@@ -116,15 +112,14 @@ if (!function_exists('env'))
     function env(string $varName = null)
     {
         $value = getenv($varName);
-        if (false === $value){
-            throw new \Exception('INVALID ENV VALUE');
+        if (false === $value) {
+            throw new \Exception('Invalid env value');
         }
         return $value;
     }
 }
 
-if (!function_exists('template'))
-{
+if (!function_exists('template')) {
     /**
      * Render view
      * @param  string $tempKey   Template Key
@@ -134,7 +129,7 @@ if (!function_exists('template'))
      */
     function template(string $tempKey, string $directory = "", array $data = [])
     {
-        $viewTemplates = config('templates.'.$tempKey.'.template');
+        $viewTemplates = config('templates.' . $tempKey . '.template');
         $filledTemp = array_search(null, $viewTemplates);
 
         if ($filledTemp !== false && empty($directory) === false) {
@@ -147,10 +142,9 @@ if (!function_exists('template'))
     }
 }
 
-if (!function_exists('view'))
-{
+if (!function_exists('view')) {
     /**
-     * Include view file
+     * Include or Render view file
      * @param  string $directory Directory
      * @param  array  $data      Data
      * @return void
@@ -166,8 +160,7 @@ if (!function_exists('view'))
     }
 }
 
-if (!function_exists('stripSpace'))
-{
+if (!function_exists('stripSpace')) {
     /**
      * Strip whitespace
      * @param  string|null $string
@@ -179,8 +172,7 @@ if (!function_exists('stripSpace'))
     }
 }
 
-if (!function_exists('now'))
-{
+if (!function_exists('now')) {
     /**
      * Now
      * @return string
@@ -191,8 +183,7 @@ if (!function_exists('now'))
     }
 }
 
-if (!function_exists('today'))
-{
+if (!function_exists('today')) {
     /**
      * Today
      * @return string
@@ -203,8 +194,7 @@ if (!function_exists('today'))
     }
 }
 
-if (!function_exists('json'))
-{
+if (!function_exists('json')) {
     /**
      * Convert to Json
      * @param $data
@@ -221,8 +211,7 @@ if (!function_exists('json'))
     }
 }
 
-if (!function_exists('storage_path'))
-{
+if (!function_exists('storage_path')) {
     /**
      * Get Storage path
      * @param  string $path
@@ -242,8 +231,7 @@ if (!function_exists('storage_path'))
     }
 }
 
-if (!function_exists('imageLocation'))
-{
+if (!function_exists('imageLocation')) {
     /**
      * Get Image Location
      * @param  array $file
@@ -253,10 +241,10 @@ if (!function_exists('imageLocation'))
     {
         $exif = exif_read_data($file["tmp_name"], 0, true);
         $location = [];
-        if($exif && isset($exif['GPS'])){
+        if ($exif && isset($exif['GPS'])) {
             $GPSLatitudeRef = $exif['GPS']['GPSLatitudeRef'];
             $GPSLatitude    = $exif['GPS']['GPSLatitude'];
-            $GPSLongitudeRef= $exif['GPS']['GPSLongitudeRef'];
+            $GPSLongitudeRef = $exif['GPS']['GPSLongitudeRef'];
             $GPSLongitude   = $exif['GPS']['GPSLongitude'];
 
             $lat_degrees = count($GPSLatitude) > 0 ? gps2Num($GPSLatitude[0]) : 0;
@@ -270,8 +258,8 @@ if (!function_exists('imageLocation'))
             $lat_direction = ($GPSLatitudeRef == 'W' or $GPSLatitudeRef == 'S') ? -1 : 1;
             $lon_direction = ($GPSLongitudeRef == 'W' or $GPSLongitudeRef == 'S') ? -1 : 1;
 
-            $latitude = $lat_direction * ($lat_degrees + ($lat_minutes / 60) + ($lat_seconds / (60*60)));
-            $longitude = $lon_direction * ($lon_degrees + ($lon_minutes / 60) + ($lon_seconds / (60*60)));
+            $latitude = $lat_direction * ($lat_degrees + ($lat_minutes / 60) + ($lat_seconds / (60 * 60)));
+            $longitude = $lon_direction * ($lon_degrees + ($lon_minutes / 60) + ($lon_seconds / (60 * 60)));
 
             $location = ['latitude' => $latitude, 'longitude' => $longitude];
         }
@@ -280,23 +268,26 @@ if (!function_exists('imageLocation'))
     }
 }
 
-if (!function_exists('gps2Num'))
-{
+if (!function_exists('gps2Num')) {
     /**
      * Convert GPS coord part in float val
      * @param  [type] $coordPart
      * @return [type]
      */
-    function gps2Num($coordPart){
+    function gps2Num($coordPart) {
         $parts = explode('/', $coordPart);
-        if(count($parts) <= 0) return 0;
-        if(count($parts) == 1) return $parts[0];
+        $len = count($parts);
+        if ($len <= 0) {
+            return 0;
+        }
+        if ($len == 1) {
+            return $parts[0];
+        }
         return floatval($parts[0]) / floatval($parts[1]);
     }
 }
 
-if (!function_exists('resources_path'))
-{
+if (!function_exists('resources_path')) {
     /**
      * Get Resource path
      * @param  string $path
@@ -307,8 +298,7 @@ if (!function_exists('resources_path'))
         if (empty($path)) {
             return RESOURCES_PATH;
         }
-        if (false === file_exists(RESOURCES_PATH . $path))
-        {
+        if (false === file_exists(RESOURCES_PATH . $path)) {
             throw new \Exception("Resource Directory Not Found");
         }
 
@@ -316,8 +306,7 @@ if (!function_exists('resources_path'))
     }
 }
 
-if (!function_exists('assets'))
-{
+if (!function_exists('assets')) {
     /**
      * Get assets path in Public folder
      * @param  string $path
@@ -329,8 +318,7 @@ if (!function_exists('assets'))
         if (empty($path)) {
             return $assets;
         }
-        if (false === file_exists(ASSETS_PATH . $path))
-        {
+        if (false === file_exists(ASSETS_PATH . $path)) {
             throw new \Exception("Asset Directory Not Found");
         }
 
@@ -338,8 +326,7 @@ if (!function_exists('assets'))
     }
 }
 
-if (!function_exists('public_path'))
-{
+if (!function_exists('public_path')) {
     /**
      * Get Public path
      * @param  string $path
@@ -350,8 +337,7 @@ if (!function_exists('public_path'))
         if (empty($path)) {
             return DOC_ROOT;
         }
-        if (false === file_exists(DOC_ROOT . $path))
-        {
+        if (false === file_exists(DOC_ROOT . $path)) {
             throw new \Exception("Public Directory Not Found");
         }
 
@@ -359,8 +345,7 @@ if (!function_exists('public_path'))
     }
 }
 
-if (!function_exists('url'))
-{
+if (!function_exists('url')) {
     /**
      * Get current url
      * @param  string $path
@@ -376,8 +361,7 @@ if (!function_exists('url'))
     }
 }
 
-if (!function_exists('back'))
-{
+if (!function_exists('back')) {
     /**
      * Go back
      * @param  string $path

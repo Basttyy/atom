@@ -25,7 +25,7 @@ class CSV
      */
     public static function checkEmpty()
     {
-        return static::$checkEmpty = true; 
+        return static::$checkEmpty = true;
     }
 
     /**
@@ -83,13 +83,13 @@ class CSV
                 throw new CsvException(CsvException::ERR_MSG_INVALID_FILE);
             }
         }
-        
+
         while ($line = fgetcsv($content)) {
             if ((!$skipEmpty || static::$checkEmpty) && (empty($line) || false === (bool)array_filter($line))) {
                 throw new CsvException(CsvException::ERR_MSG_INVALID_DATA);
             }
 
-            $line = array_map(function ($item) {
+            $line = array_map(function ($item) use ($nullable) {
                 return (($nullable || static::$setNull) && empty($item)) ? null : trim($item);
             }, $line);
 
@@ -118,8 +118,8 @@ class CSV
             $output = fopen('php://output', 'w');
 
             if (false === empty(static::$setHeader) || ($header && is_array($data[0]))) {
-            	$csvHeader = $header ? array_keys($data[0]) : static::$setHeader;
-            	fputcsv($output, $csvHeader);
+                $csvHeader = $header ? array_keys($data[0]) : static::$setHeader;
+                fputcsv($output, $csvHeader);
             }
 
             foreach ($data as $items) {

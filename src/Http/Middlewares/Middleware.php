@@ -56,7 +56,7 @@ class Middleware
      */
     public function runMiddleware($class)
     {
-        $middleware = $this->loadMiddlewares($class);
+        $middleware = $this->loadMiddleware($class);
         $method = 'handle';
 
         if (!method_exists($middleware, $method)) {
@@ -75,7 +75,7 @@ class Middleware
      * @param  string $class Middleware class name
      * @return object
      */
-    public function loadMiddlewares($class)
+    private function loadMiddleware($class)
     {
         $file = MIDDLEWARE_PATH . $class . '.php';
         if (!file_exists($file)) {
@@ -85,7 +85,7 @@ class Middleware
 
         require_once($file);
 
-        $middlewareClass = env('APP_NAMESPACE').'\\Middlewares\\'.$class;
+        $middlewareClass = env('APP_NAMESPACE') . '\\Middlewares\\' . $class;
         $middleware = new $middlewareClass();
 
         if ($middleware) {
@@ -98,7 +98,7 @@ class Middleware
      * Check Middlewares
      * @return void
      */
-    public function checkMiddlewares()
+    private function checkMiddlewares()
     {
         if (empty($this->middlewares)) {
             throw new MiddlewareException(MiddlewareException::ERR_MSG_NO_MIDDLEWARES);
@@ -114,7 +114,7 @@ class Middleware
      * Sort middleware
      * @return void
      */
-    public function sortMiddlewares()
+    private function sortMiddlewares()
     {
         $highPriority = array_intersect(array_keys($this->priorityMiddlewares), $this->impMiddlewares);
         $tmp = array_diff($this->impMiddlewares, $highPriority);

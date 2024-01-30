@@ -2,9 +2,10 @@
 
 namespace Atom\Models;
 
-use Atom\Models\ModelException;
+use Atom\Models\Exception\ModelException;
 
-trait Filterable {
+trait Filterable
+{
     /**
      * Filter
      * @param  array  $params Params
@@ -38,7 +39,7 @@ trait Filterable {
             }
             if (array_key_exists($key, $this->filterable)) {
                 if (array_key_exists('LIKE', $this->filterable[$key])) {
-                    $value = str_replace('{'.$key.'}', $value, $this->filterable[$key]['LIKE']);
+                    $value = str_replace('{' . $key . '}', $value, $this->filterable[$key]['LIKE']);
                     $conditions[] = [$key, 'LIKE', $value];
                     continue;
                 }

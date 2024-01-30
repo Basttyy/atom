@@ -6,13 +6,13 @@ use Atom\File\Exception\LogException;
 
 class Log
 {
-    static $file;
-    static $msg;
-    static $datetime;
+    protected static $file;
+    protected static $msg;
+    protected static $datetime;
 
-    const INFO = "INFO";
-    const DEBUG = "DEBUG";
-    const ERROR = "ERROR";
+    public const INFO = "INFO";
+    public const DEBUG = "DEBUG";
+    public const ERROR = "ERROR";
 
     /**
      * Log is used
@@ -35,8 +35,7 @@ class Log
 
         $logFile = LOG_PATH . env('DEV_LOG_FILE');
 
-        if (!file_exists($logFile))
-        {
+        if (!file_exists($logFile)) {
             mkdir(LOG_PATH, 0777, true);
         }
 
@@ -51,7 +50,7 @@ class Log
     {
         $file = static::logFile();
         $datetime = date('Y-m-d H:i:s');
-        file_put_contents($file, PHP_EOL . "[{$datetime}]\t" .static::$msg , FILE_APPEND);
+        file_put_contents($file, PHP_EOL . "[{$datetime}]\t" . static::$msg , FILE_APPEND);
     }
 
     /**
@@ -61,7 +60,7 @@ class Log
      */
     public static function error($msg)
     {
-        static::$msg = self::ERROR . "\t" .print_r($msg, true);
+        static::$msg = self::ERROR . "\t" . print_r($msg, true);
         static::record();
     }
 
@@ -72,7 +71,7 @@ class Log
      */
     public static function info($msg)
     {
-        static::$msg = self::INFO . "\t" .print_r($msg, true);
+        static::$msg = self::INFO . "\t" . print_r($msg, true);
         static::record();
     }
 
@@ -83,7 +82,7 @@ class Log
      */
     public static function debug($msg)
     {
-        static::$msg = self::DEBUG . "\t" .print_r($msg, true);
+        static::$msg = self::DEBUG . "\t" . print_r($msg, true);
         static::record();
     }
 }

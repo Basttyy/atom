@@ -16,7 +16,8 @@ trait HasAttributes
      * @param string The key data to retrieve
      * @access public
      */
-    public function &__get ($key) {
+    public function __get($key)
+    {
         return $this->attributes[$key];
     }
 
@@ -27,7 +28,8 @@ trait HasAttributes
      * @param mixed  The value to set
      * @access public
      */
-    public function __set($key,$value) {
+    public function __set($key, $value)
+    {
         $this->attributes[$key] = $value;
     }
 
@@ -39,7 +41,8 @@ trait HasAttributes
      * @return boolean
      * @abstracting ArrayAccess
      */
-    public function __isset ($key) {
+    public function __isset($key)
+    {
         return isset($this->attributes[$key]);
     }
 
@@ -49,7 +52,8 @@ trait HasAttributes
      * @param string The key to unset
      * @access public
      */
-    public function __unset($key) {
+    public function __unset($key)
+    {
         unset($this->attributes[$key]);
     }
 
@@ -61,7 +65,8 @@ trait HasAttributes
      * @access public
      * @abstracting ArrayAccess
      */
-    public function offsetSet($offset,$value) {
+    public function offsetSet($offset, $value)
+    {
         if (is_null($offset)) {
             $this->attributes[] = $value;
         } else {
@@ -77,7 +82,8 @@ trait HasAttributes
      * @return boolean
      * @abstracting ArrayAccess
      */
-    public function offsetExists($offset) {
+    public function offsetExists($offset)
+    {
         return isset($this->attributes[$offset]);
     }
 
@@ -88,7 +94,8 @@ trait HasAttributes
      * @access public
      * @abstracting ArrayAccess
      */
-    public function offsetUnset($offset) {
+    public function offsetUnset($offset)
+    {
         if ($this->offsetExists($offset)) {
             unset($this->attributes[$offset]);
         }
@@ -102,7 +109,8 @@ trait HasAttributes
      * @return mixed
      * @abstracting ArrayAccess
      */
-    public function offsetGet($offset) {
+    public function offsetGet($offset)
+    {
         return $this->offsetExists($offset) ? $this->attributes[$offset] : null;
     }
 

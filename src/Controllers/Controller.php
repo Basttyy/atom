@@ -40,6 +40,12 @@ class Controller
     protected $entityManager;
 
     /**
+     * Target Controller object
+     * @var object
+     */
+    private $controller;
+
+    /**
      * Controller construct
      * @param Request|null $request
      */
@@ -76,7 +82,7 @@ class Controller
 
         require_once($file);
 
-        $controllerClass = env('APP_NAMESPACE').'\\Controllers\\'.$class;
+        $controllerClass = env('APP_NAMESPACE') . '\\Controllers\\' . $class;
         $controller = $this->container->resolve($controllerClass);
 
         if ($controller) {
@@ -142,30 +148,30 @@ class Controller
      *
      * @return EntityManager | Exception
      */
-    public function getDoctrineEntityManager()
-    {
-        if (false === boolval(env('DBAL_IN_USE'))) {
-            throw new ControllerException(ControllerException::ERR_MSG_DOCTRINE_NOT_USE);
-        }
-        // Create a simple "default" Doctrine ORM configuration for Annotations
-        $config = Setup::createAnnotationMetadataConfiguration(
-            [DOC_ROOT.env('DBAL_PATH_CONFIG')],
-            (bool) env('DBAL_DEV_MODE'),
-            env('DBAL_PROXY_DIR') ? env('DBAL_PROXY_DIR') : null,
-            env('DBAL_CACHE') ? env('DBAL_CACHE') : null,
-            (bool) env('DBAL_USE_SIMPLE_ANNO_READER')
-        );
+    // public function getDoctrineEntityManager()
+    // {
+    //     if (false === boolval(env('DBAL_IN_USE'))) {
+    //         throw new ControllerException(ControllerException::ERR_MSG_DOCTRINE_NOT_USE);
+    //     }
+    //     // Create a simple "default" Doctrine ORM configuration for Annotations
+    //     $config = Setup::createAnnotationMetadataConfiguration(
+    //         [DOC_ROOT . env('DBAL_PATH_CONFIG')],
+    //         (bool) env('DBAL_DEV_MODE'),
+    //         env('DBAL_PROXY_DIR') ? env('DBAL_PROXY_DIR') : null,
+    //         env('DBAL_CACHE') ? env('DBAL_CACHE') : null,
+    //         (bool) env('DBAL_USE_SIMPLE_ANNO_READER')
+    //     );
 
-        // database configuration parameters
-        $conn = array(
-            'driver' => env('DB_DRIVER'),
-            'dbname' => env('DB_NAME'),
-            'user' => env('DB_USER'),
-            'password' => env('DB_PASSWORD'),
-            'host' => env('DB_HOST').':'.env('DB_PORT'),
-        );
+    //     // database configuration parameters
+    //     $conn = array(
+    //         'driver' => env('DB_DRIVER'),
+    //         'dbname' => env('DB_NAME'),
+    //         'user' => env('DB_USER'),
+    //         'password' => env('DB_PASSWORD'),
+    //         'host' => env('DB_HOST').':'.env('DB_PORT'),
+    //     );
 
-        // obtaining the entity manager
-        return EntityManager::create($conn, $config);
-    }
+    //     // obtaining the entity manager
+    //     return EntityManager::create($conn, $config);
+    // }
 }

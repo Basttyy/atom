@@ -6,8 +6,8 @@ use Atom\Views\Exception\ViewException;
 
 class ViewFactory
 {
-    static $data;
-    static $directory;
+    protected static $data;
+    protected static $directory;
 
     /**
      * View Factory construct

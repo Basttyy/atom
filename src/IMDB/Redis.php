@@ -22,7 +22,7 @@ class Redis extends Predis\Client
             parent::__construct($connection);
             $this->connect();
         } catch (Predis\Connection\ConnectionException $e) {
-            throw new ImdbException(ImdbException::ERR_REDIS_CONNECTION_FAIL.': '.$e->getMessage());
+            throw new ImdbException(ImdbException::ERR_REDIS_CONNECTION_FAIL . ': ' . $e->getMessage());
         }
     }
 
@@ -55,5 +55,4 @@ class Redis extends Predis\Client
         }
         return $result;
     }
-
 }

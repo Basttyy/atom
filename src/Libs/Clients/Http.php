@@ -1,10 +1,11 @@
 <?php
 
-namespace Atom\Libs\ClientURL;
+namespace Atom\Libs\Clients;
 
+use Atom\IMDB\Exception\HttpClientException;
 use Atom\Libs\ClientURL\Exception\ClientURLException;
 
-class ClientURL
+class HttpClient
 {
     /**
      * Connection
@@ -103,7 +104,7 @@ class ClientURL
             curl_setopt($this->con, CURLOPT_CUSTOMREQUEST, $method);
             return $this;
         }
-        throw new ClientURLException(ClientURLException::ERR_MSG_METHOD_NOT_EXIST);
+        throw new HttpClientException(HttpClientException::ERR_MSG_METHOD_NOT_EXIST);
     }
 
     /**
@@ -147,8 +148,7 @@ class ClientURL
     public function exec()
     {
         $result = curl_exec($this->con);
-        if($result === false || curl_errno($this->con))
-        {
+        if ($result === false || curl_errno($this->con)) {
             $result = curl_error($this->con);
         }
         $this->result = $result;

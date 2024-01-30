@@ -4,7 +4,7 @@ namespace Atom\Libs\Image;
 
 use Atom\Libs\Image\Exception\ImageException;
 
-class GD
+class Image
 {
     /**
      * Create Image
@@ -64,9 +64,9 @@ class GD
 
         $ratioOrg = $widthOrg / $heightOrg;
         if ($width / $height > $ratioOrg) {
-           $width = $height * $ratioOrg;
+            $width = $height * $ratioOrg;
         } else {
-           $height = $width / $ratioOrg;
+            $height = $width / $ratioOrg;
         }
 
         return [$width, $height, $widthOrg, $heightOrg];

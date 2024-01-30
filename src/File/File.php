@@ -134,7 +134,7 @@ class File extends Globals
      * @return array
      */
     protected function encode(array $file)
-    {        
+    {
         $this->parse($file);
         $binaryContent = file_get_contents($this->core());
         return [
